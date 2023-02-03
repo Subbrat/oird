@@ -21,7 +21,7 @@ void loop() {
     startTime = millis();          // store the start time of the motor
 
     while (sensorValue > threshold) {  // display time since last use while motor is on
-      Serial.print("Time Since Last Use: ");
+      Serial.print("Time Since in Use: ");
       Serial.print((millis() - currentTime) / 1000);
       Serial.println(" sec");
       delay(1000);  // wait 1 second before reading again
