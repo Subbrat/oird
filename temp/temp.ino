@@ -22,18 +22,20 @@ void loop() {
 
     while (sensorValue > threshold) {  // display time since last use while motor is on
       unsigned long elapsedTime = (millis() - startTime) / 1000;
-      if (elapsedTime < 60) {
-        Serial.println("In Use Since: " + String(elapsedTime) + " sec");
-      } else {
-        Serial.println("In Use Since: " + String(elapsedTime / 60) + " min");
-      }
+      Serial.print("In Use Since: ");
+      Serial.print(elapsedTime / 60);
+      Serial.print(":");
+      Serial.print(elapsedTime % 60);
+      Serial.println("  Moisture Level: " + String(sensorValue));
       delay(1000);  // wait 1 second before reading again
       sensorValue = analogRead(sensorPin);  // read the soil moisture value again
     }
-    Serial.println("Motor turned off");
+    Serial.print("Moisture Level: " + String(sensorValue));
+    Serial.println("  Motor turned off");
   } else {
     digitalWrite(relayPin, HIGH);
     digitalWrite(ledPin, LOW);    // turn off the onboard LED when not watering
+    Serial.println("  Moisture Level: " + String(sensorValue));
     delay(1000);  // wait 1 second before reading again
   }
 }
