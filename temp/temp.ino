@@ -23,9 +23,9 @@ void loop() {
     while (sensorValue > threshold) {  // display time since last use while motor is on
       unsigned long elapsedTime = (millis() - startTime) / 1000;
       if (elapsedTime < 60) {
-        Serial.println("Time In Use: " + String(elapsedTime) + " sec");
+        Serial.println("In Use Since: " + String(elapsedTime) + " sec");
       } else {
-        Serial.println("Time In Use: " + String(elapsedTime / 60) + " min");
+        Serial.println("In Use Since: " + String(elapsedTime / 60) + " min");
       }
       delay(1000);  // wait 1 second before reading again
       sensorValue = analogRead(sensorPin);  // read the soil moisture value again
