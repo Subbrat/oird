@@ -1,41 +1,36 @@
-const int sensorPin = A0;  // soil moisture sensor connected to analog pin A0
-const int relayPin = 6;    // relay module connected to digital pin 6
-const int ledPin = 13;     // onboard LED connected to digital pin 13
-const int threshold = 700; // moisture level threshold
-unsigned long startTime;    // variable to store start time of motor
-unsigned long currentTime;  // variable to store current time
-
+const int sensorPin = A0;
+const int relayPin = 6;
+const int ledPin = 13;
+const int threshold = 700;
+unsigned long startTime;
+unsigned long currentTime;
 void setup() {
-  pinMode(relayPin, OUTPUT);  // set the relay pin as an output
-  pinMode(ledPin, OUTPUT);    // set the onboard LED pin as an output
-  Serial.begin(9600);         // start serial communication at 9600 baud
+  pinMode(relayPin, OUTPUT);
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
 }
-
 void loop() {
-  int sensorValue = analogRead(sensorPin);  // read the soil moisture value
-
-  // turn on the motor if the soil is dry, and off if it's moist
+  int sensorValue = analogRead(sensorPin);
   if (sensorValue > threshold) {
     digitalWrite(relayPin, LOW);
-    digitalWrite(ledPin, HIGH);   // turn on the onboard LED while watering
-    startTime = millis();          // store the start time of the motor
-
-    while (sensorValue > threshold) {  // display time since last use while motor is on
+    digitalWrite(ledPin, HIGH);
+    startTime = millis();
+    while (sensorValue > threshold) {
       unsigned long elapsedTime = (millis() - startTime) / 1000;
       Serial.print("In Use Since: ");
       Serial.print(elapsedTime / 60);
       Serial.print(":");
       Serial.print(elapsedTime % 60);
       Serial.println("  Moisture Level: " + String(sensorValue));
-      delay(1000);  // wait 1 second before reading again
-      sensorValue = analogRead(sensorPin);  // read the soil moisture value again
+      delay(1000);
+      sensorValue = analogRead(sensorPin);
     }
     Serial.print("Moisture Level: " + String(sensorValue));
     Serial.println("  Motor turned off");
   } else {
     digitalWrite(relayPin, HIGH);
-    digitalWrite(ledPin, LOW);    // turn off the onboard LED when not watering
+    digitalWrite(ledPin, LOW);
     Serial.println("  Moisture Level: " + String(sensorValue));
-    delay(1000);  // wait 1 second before reading again
+    delay(1000);
   }
 }
